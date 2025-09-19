@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import requests
+import PyPDF2
 import json
+
 
 app = Flask(__name__)
 CORS(app)
@@ -93,6 +95,8 @@ def generate_quiz():
     else:
         return jsonify({"error": "Failed to generate quiz."}), 500
 
+
+
 @app.route("/api/upload_pdf", methods=["POST"])
 def upload_pdf():
     if "file" not in request.files:
@@ -101,9 +105,21 @@ def upload_pdf():
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
 
-    # Here you would process the PDF and extract summary
-    # For now, just return a dummy summary
-    summary = "PDF summary feature coming soon!"
+    # Extract text from PDF
+    try:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text() or ""
+        if not text.strip():
+            return jsonify({"error": "Could not extract text from PDF."}), 400
+    except Exception as e:
+        return jsonify({"error": f"PDF extraction failed: {str(e)}"}), 500
+
+    # Summarize using Gemini
+    prompt = f"Summarize the following textbook or notes in 5-7 sentences:\n{text[:4000]}"
+    summary_response = generate_content_from_gemini(prompt)
+    summary = summary_response if isinstance(summary_response, str) else summary_response.get("concept", "")
 
     return jsonify({"summary": summary})
 

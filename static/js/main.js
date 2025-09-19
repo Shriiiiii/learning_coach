@@ -77,6 +77,7 @@ async function exploreTopic() {
 async function uploadPDF() {
   const pdfInput = document.getElementById("pdfInput");
   const pdfSummary = document.getElementById("pdfSummary");
+  const quizContainer = document.getElementById("quizContainer");
   const file = pdfInput.files[0];
 
   if (!file) {
@@ -85,6 +86,7 @@ async function uploadPDF() {
   }
 
   pdfSummary.innerHTML = "<p>⏳ Uploading and summarizing PDF...</p>";
+  quizContainer.innerHTML = ""; // Clear previous quiz when new PDF is uploaded
 
   let formData = new FormData();
   formData.append("file", file);
@@ -108,15 +110,14 @@ async function uploadPDF() {
 }
 
 // -------------------
-// Feature 3: Quiz Generator
-// -------------------
+// Feature 3: Quiz Generator (enabled for PDF summary)
 async function generateQuiz() {
-  const quizInput = document.getElementById("pdfSummary"); // Using PDF summary for quiz
+  const pdfSummary = document.getElementById("pdfSummary");
   const quizContainer = document.getElementById("quizContainer");
-  const text = quizInput.innerText.trim();
+  const summaryText = pdfSummary.querySelector("p") ? pdfSummary.querySelector("p").innerText.trim() : pdfSummary.innerText.trim();
 
-  if (!text) {
-    quizContainer.innerHTML = "<p style='color:red;'>⚠️ No text available to generate quiz.</p>";
+  if (!summaryText || summaryText.startsWith("⚠️") || summaryText.startsWith("❌")) {
+    quizContainer.innerHTML = "<p style='color:red;'>⚠️ Please upload and process a PDF first.</p>";
     return;
   }
 
@@ -126,7 +127,7 @@ async function generateQuiz() {
     let res = await fetch("/api/generate_quiz", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ text: summaryText })
     });
     let data = await res.json();
 
@@ -139,15 +140,24 @@ async function generateQuiz() {
       <h3>📝 Quiz:</h3>
       <p><b>${data.question}</b></p>
       <ul>
-    `;
-    data.options.forEach(opt => {
-      quizHTML += `<li>${opt}</li>`;
-    });
-    quizHTML += `</ul>
-      <p><i>(Answer: ${data.answer})</i></p>
+        ${data.options.map(opt => `<li>${opt}</li>`).join("")}
+      </ul>
+      <button id="revealAnswerBtn">Show Answer</button>
+      <p id="quizAnswer" style="display:none;"><i>Answer: ${data.answer}</i></p>
     `;
 
     quizContainer.innerHTML = quizHTML;
+
+    // Use event delegation in case the button is not attached immediately
+    setTimeout(() => {
+      const btn = document.getElementById("revealAnswerBtn");
+      if (btn) {
+        btn.onclick = function() {
+          document.getElementById("quizAnswer").style.display = "block";
+          this.style.display = "none";
+        };
+      }
+    }, 100);
   } catch (err) {
     quizContainer.innerHTML = `<p style='color:red;'>❌ Error: ${err.message}</p>`;
   }
