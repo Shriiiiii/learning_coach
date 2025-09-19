@@ -1,0 +1,163 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fb;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  background: linear-gradient(90deg, #3b5998, #4e73df);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.navbar h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.navbar p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Layout */
+.container {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #2e3a59;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.sidebar button {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 12px;
+  margin: 6px 0;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f9fbfd;
+  overflow-y: auto;
+}
+
+/* Sections */
+.section {
+  display: none;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Input & Buttons */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+input[type="text"], 
+input[type="file"], 
+textarea {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 12px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+}
+
+/* Cards for suggestions */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.cards .card {
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Footer */
+footer {
+  background: #2e3a59;
+  color: #ddd;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}

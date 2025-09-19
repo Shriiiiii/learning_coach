@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Personalized Learning Platform</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1>📘 AI Learning Companion</h1>
+    <p>Your AI-powered study partner – Learn smarter, not harder!</p>
+  </nav>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <button onclick="showSection('topic')">📖 Topic Explorer</button>
+      <button onclick="showSection('pdf')">📄 Upload PDF</button>
+      <button onclick="showSection('quiz')">❓ Quiz</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Topic Explorer -->
+      <section id="topic" class="section active">
+        <h2>✨ Explore Any Topic</h2>
+        <p>Get explanations, book suggestions, and videos instantly.</p>
+        <div class="input-group">
+          <input type="text" id="topicInput" placeholder="Enter a topic (e.g., Machine Learning)">
+          <button onclick="exploreTopic()">Search</button>
+        </div>
+        <div id="topicResult" class="card"></div>
+
+        <h3>📚 Suggested Textbooks</h3>
+        <div id="bookSuggestions" class="cards"></div>
+
+        <h3>🎥 Video Suggestions</h3>
+        <div id="videoSuggestions" class="cards"></div>
+      </section>
+
+      <!-- PDF Upload -->
+      <section id="pdf" class="section">
+        <h2>📄 Upload Textbook / Notes</h2>
+        <p>Upload a PDF to generate summaries, quizzes, and question papers.</p>
+        <input type="file" id="pdfInput" accept="application/pdf">
+        <button onclick="uploadPDF()">Process PDF</button>
+        <div id="pdfSummary" class="card"></div>
+
+        <div class="actions">
+          <button onclick="generateQuiz()">Generate Quiz</button>
+          <button onclick="generateQuestions()">Generate Question Paper</button>
+        </div>
+      </section>
+
+      <!-- Quiz -->
+      <section id="quiz" class="section">
+        <h2>❓ Interactive Quiz</h2>
+        <div id="quizContainer"></div>
+        <p id="quizScore"></p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Hackathon Project | Team AI Learners 🚀</p>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
